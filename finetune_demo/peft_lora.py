@@ -41,9 +41,9 @@ class ConversationDataset(Dataset):
         self.root_dir = root_dir
         self.tokenizer = tokenizer
         self.model = model
-        self.image_dir = os.path.join(root_dir, 'images')
-        self.label_dir = os.path.join(root_dir,
-                                      'labels_en')  # can be change to labels_en or labels_zh in SFT-311K dataset
+        self.image_dir = os.path.join("/root/data", 'images')
+        # self.label_dir = os.path.join(root_dir,
+        #                               'labels_en')  # can be change to labels_en or labels_zh in SFT-311K dataset
         self.filenames = os.listdir(self.image_dir)
         self.input_length = input_length
         self.output_length = output_length
@@ -69,8 +69,10 @@ class ConversationDataset(Dataset):
         return batched_data
 
     def __getitem__(self, idx):
-        img_name = os.path.join(self.image_dir, self.filenames[idx])
-        label_name = os.path.join(self.label_dir, self.filenames[idx].replace('.jpg', '.json'))
+        # img_name = os.path.join(self.image_dir, self.filenames[idx])
+        # label_name = os.path.join(self.label_dir, self.filenames[idx].replace('.jpg', '.json'))
+        img_name = os.path.join(self.image_dir, self.filenames[idx], "images", "image_1.jpg")
+        label_name = os.path.join(self.image_dir, self.filenames[idx], "product-info-chat.json")
 
         image = Image.open(img_name).convert('RGB')
         with open(label_name, 'r') as f:
